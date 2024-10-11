@@ -29,10 +29,16 @@
             <div class="field">
                 <input type="text" name="email" required>
                 <label>Email Address</label>
+                @error('email')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <div class="field">
                 <input type="password" name="password" required>
                 <label>Password</label>
+                @error('password')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <div class="content">
                 <div class="pass-link">

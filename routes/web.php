@@ -13,5 +13,7 @@ Route::get('/register',[UserController::class,'register'])->name('register');
 Route::post('/loginsave',[UserController::class,'loginsave'])->name('loginsave');
 Route::get('/login',[UserController::class,'login'])->name('login');
 
+Route::get('/user/verify/{token}',[UserController::class,'verifyUser']);
+
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 

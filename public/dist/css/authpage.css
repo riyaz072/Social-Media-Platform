@@ -18,6 +18,10 @@ body {
   background: #4158d0;
 } */
 
+.error {
+  color: red;
+}
+
 .container {
   max-width: 700px;
   width: 100%;

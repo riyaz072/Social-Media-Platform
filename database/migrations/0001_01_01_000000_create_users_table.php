@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 return new class extends Migration
 {
     /**
@@ -18,18 +16,17 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('gender')->comment('1 => male, 2 => female, 3 => other');
-            $table->string('phone_no');
+            $table->unsignedTinyInteger('gender')->comment('1 => Male, 2 => Female, 3 => other');
+            $table->unsignedBigInteger('phone_no')->nullable();
+            $table->boolean('verified')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
-
         Schema::create('verify_users', function (Blueprint $table) {
-            $table->string('email')->primary();
+            $table->string('user_id')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
-
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
@@ -39,7 +36,6 @@ return new class extends Migration
             $table->integer('last_activity')->index();
         });
     }
-
     /**
      * Reverse the migrations.
      */

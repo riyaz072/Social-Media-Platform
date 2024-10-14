@@ -42,7 +42,7 @@
             </div>
             <div class="content">
                 <div class="pass-link">
-                    <a href="#">Forgot password?</a>
+                    <a href="{{route('forgot-password')}}">Forgot password?</a>
                 </div>
             </div>
             <div class="field">

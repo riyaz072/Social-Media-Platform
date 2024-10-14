@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Frontend\LoginRequest as FrontendLoginRequest;
+use App\Http\Requests\Frontend\RegisterRequest as FrontendRegisterRequest;
+use App\Http\Requests\Frontend\ResetPasswordRequest as FrontendResetPasswordRequest;
+use App\Mail\ForgotPassword;
 use App\Mail\VerifyMail;
 use App\Models\User;
 use App\Models\VerifyUser;
@@ -16,10 +19,10 @@ class UserController extends Controller
 {
     public function register()
     {
-        return view('register');
+        return view('frontend.authentication.register');
     }
 
-    public function registersave(RegisterRequest $request)
+    public function registersave(FrontendRegisterRequest $request)
     {
 
         $user = new User();
@@ -41,16 +44,16 @@ class UserController extends Controller
 
         return $user;
 
-        // return redirect()->route('login');
+        return redirect()->route('login');
     }
 
 
     public function login()
     {
-        return view('login');
+        return view('frontend.authentication.login');
     }
 
-    public function loginsave(LoginRequest $request)
+    public function loginsave(FrontendLoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
@@ -65,25 +68,6 @@ class UserController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
-
-
-    // public function verifyUser($token)
-    // {
-    //     $verifyUser = VerifyUser::where('token', $token)->first();
-    //     if (isset($verifyUser)) {
-    //         $user = $verifyUser->user;
-    //         if (!$user->verified) {
-    //             $verifyUser->user->verified = 1;
-    //             $verifyUser->user->save();
-    //             $status = "Your e-mail is verified. You can now login.";
-    //         } else {
-    //             $status = "Your e-mail is already verified. You can now login.";
-    //         }
-    //     } else {
-    //         return redirect('/login')->with('warning', "Sorry your email cannot be identified.");
-    //     }
-    //     return redirect('/login')->with('status', $status);
-    // }
 
     public function verifyUser($token)
     {
@@ -102,4 +86,45 @@ class UserController extends Controller
         }
         return redirect('/login')->with('status', $status);
     }
+
+
+    public function forgotPassword()
+    {
+        return view('frontend.forgot-password.forgot_password');
+    }
+
+    // Verify email for reseting new password
+
+
+    public function verifyEmail(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            Mail::to($user->email)->send(new ForgotPassword($user));
+            return redirect()->route('forgot-password')->with('success', 'Please Check your MailBox');
+        } 
+        else {
+            return redirect()->route('forgot-password')->with('error', 'You Are Not a Member');
+        }
+    }
+
+    public function changePassword($token)
+    {
+        $verifyUser = VerifyUser::where('token', $token)->first();
+        if ($verifyUser) {
+            return view('frontend.forgot-password.reset_password', compact('verifyUser'));
+        } else {
+            return redirect()->route('login')->with('error', 'Your mail is not found');
+        }
+    }
+
+    public function newPassword(FrontendResetPasswordRequest $request) {
+        $verifiedUser = VerifyUser::where('token', $request->user_token)->first();
+        $findUser = User::where('id', $verifiedUser->user_id)->update([
+            'password' => Hash::make($request->password)
+        ]);
+        return redirect()->route('login')->with('success', 'Your Password Has Been Changed');
+
+    }
+
 }

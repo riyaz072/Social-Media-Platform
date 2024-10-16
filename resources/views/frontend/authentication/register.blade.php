@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Responsive Registration Form | CodingLab </title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="{{asset('dist/css/authpage.css')}}">
+  <link rel="stylesheet" href="{{asset('admin_assets/css/authpage.css')}}">
 </head>
 <body>
   <div class="container">

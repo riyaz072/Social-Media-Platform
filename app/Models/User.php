@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+
+    protected $appends = ['image_url'];
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -26,6 +29,9 @@ class User extends Authenticatable
         'phone_no',
         'gender',
         'verified',
+        'bio',
+        'privacy',
+        'profile_picture',
     ];
 
     /**
@@ -54,5 +60,12 @@ class User extends Authenticatable
     public function verifyUser()
     {
         return $this->hasOne(VerifyUser::class);
+    }
+
+    public function getImageUrlAttribute() {
+        if (!$this->profile_picture) {
+            return asset('storage/image/instagram_default.png');
+        }
+        return asset('storage/image/' . $this->profile_picture);
     }
 }

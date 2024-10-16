@@ -33,6 +33,7 @@ class UserController extends Controller
         $user->password = $request->password;
         $user->phone_no = $request->phone_no;
         $user->gender = $request->gender;
+        // $user->profile_picture = 'instagram_default.png';
         $user->save();
 
         $verifyUser = VerifyUser::create([
@@ -57,7 +58,7 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->route('');
+            return redirect()->route('profile.index');
         } else {
             return redirect()->route('login');
         }

@@ -6,12 +6,12 @@
     <meta charset="utf-8">
     <title>Login Form Design | CodeLab</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="{{ asset('dist/css/authpage.css') }}">
+    <link rel="stylesheet" href="{{asset('admin_assets/css/authpage.css')}}">
 </head>
 
 <body>
     @if (session('status'))
-        <div class="alert alert-success">
+        <div class="alert alert-success">                                                                                                                                                                                                                                                                                                                                                                                   
             {{ session('status') }}
         </div>
     @endif

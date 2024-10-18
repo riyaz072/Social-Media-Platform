@@ -24,7 +24,6 @@ class UserController extends Controller
 
     public function registersave(FrontendRegisterRequest $request)
     {
-
         $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -33,19 +32,15 @@ class UserController extends Controller
         $user->password = $request->password;
         $user->phone_no = $request->phone_no;
         $user->gender = $request->gender;
-        // $user->profile_picture = 'instagram_default.png';
         $user->save();
-
+    
         $verifyUser = VerifyUser::create([
             'user_id' => $user->id,
             'token' => sha1(time())
         ]);
-
+    
         Mail::to($user->email)->send(new VerifyMail($user));
-
-        return $user;
-
-        return redirect()->route('login');
+        return redirect()->back()->with('success', 'Registration successful. Please check your email to verify your account.');
     }
 
 

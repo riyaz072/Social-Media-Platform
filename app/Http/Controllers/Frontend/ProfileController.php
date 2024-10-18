@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -15,8 +16,9 @@ class ProfileController extends Controller
     public function index()
     {
         $user = User::where('id', Auth::user()->id)->first();
-        return view('frontend.profile-page.profile', compact('user'));
-    }
+        $posts = Post::with('images')->where('user_id', Auth::user()->id)->get();
+        return view('frontend.profile-page.profile', compact('user', 'posts'));
+    } 
 
     /**
      * Show the form for creating a new resource.
@@ -56,14 +58,12 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $user = User::find($id);
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'bio' => $request->bio,
             'privacy' => $request->privacy,
-            // 'profile_picture' => $user->profile_picture,
         ]);
         
         if ($request->remove_dp == 1) {

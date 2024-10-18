@@ -8,6 +8,19 @@
   <link rel="stylesheet" href="{{asset('admin_assets/css/authpage.css')}}">
 </head>
 <body>
+  @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@elseif (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@elseif (session('warning'))
+    <div class="alert alert-warning">
+        {{ session('warning') }}
+    </div>
+@endif
   <div class="container">
     <!-- Title section -->
     <div class="title">Registration</div>
@@ -104,3 +117,5 @@
   </div>
 </body>
 </html>
+
+

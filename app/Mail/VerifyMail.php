@@ -39,7 +39,7 @@ class VerifyMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.verifyUser',
+            view: 'frontend.emails.verify-user',
         );
     }
 

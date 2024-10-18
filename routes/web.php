@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Frontend\PostController;
+use App\Http\Controllers\Frontend\ProfileController as FrontendProfileController;
 use App\Http\Controllers\Frontend\UserController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -24,13 +25,12 @@ Route::get('reset-password',[UserController::class,'resetPassword'])->name('rese
 Route::get('change-password/{token}', [UserController::class, 'changePassword'])->name('change-password');
 Route::post('new-password/{token}', [UserController::class, 'newPassword'])->name('new-password');
 
-
-
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 Route::middleware(AuthMiddleware::class)->group(function () {
-    Route::resource('profile',ProfileController::class);
-    // Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
-    // Route::get('edit-profile', [ProfileController::class, 'editProfileForm'])->name('edit-profile-form');
-    // Route::post('edit-profile', [ProfileController::class, 'updateProfile'])->name('edit-profile');
+
+    Route::resource('profile',FrontendProfileController::class);
+
+    Route::resource('create-post',PostController::class);
+
 });

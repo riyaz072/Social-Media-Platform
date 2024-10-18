@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function verifyUser()
     {
-        return $this->hasOne(VerifyUser::class);
+        return $this->hasOne(VerifyUser::class, 'user_id');
     }
 
     public function getImageUrlAttribute() {
@@ -68,4 +68,5 @@ class User extends Authenticatable
         }
         return asset('storage/image/' . $this->profile_picture);
     }
+
 }

@@ -32,7 +32,7 @@
           <span class="mr-2 d-none d-lg-inline text-dark large">
             {{ '@' .  auth()->user()->username }}
           </span>
-          <img class="img-profile rounded-circle" src="{{$user->image_url}}">
+          <img class="img-profile rounded-circle" src="{{ auth()->user()->image_url }}">
         </a>
         <!-- Dropdown - User Information -->
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

@@ -40,9 +40,9 @@
 
                     <div class="d-flex align-items-center mt-2">
                         <img src="{{ $user->image_url }}" class="img-thumbnail rounded-circle" id="user_dp"
-                            alt="Profile Picture" width="100" height="100">
-
-                            @if ($user->profile_picture = null)
+                        alt="Profile Picture" width="100" height="100">
+                        
+                        @if ($user->profile_picture != null)
                             <div class="form-check ms-3 ml-2">
                                 <input type="hidden" name="remove_dp" id="assign-value">
                                 <button type="button" class="btn btn-outline-danger" value="" id="remove_dp"><i

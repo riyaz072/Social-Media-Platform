@@ -12,6 +12,14 @@ class VerifyUser extends Model
 
     const UPDATED_AT = null;
 
+    protected $table = 'verify_users'; 
+
+    protected $primaryKey = 'user_id';
+
+    public $incrementing = false; 
+
+    protected $keyType = 'int';
+
     protected $guarded = [];
 
     public function user()
